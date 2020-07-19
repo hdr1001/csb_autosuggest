@@ -1,11 +1,12 @@
 {
-  "name": "react-iso-country-code-autosuggest",
+  "name": "react-country-autosuggest",
   "version": "1.0.0",
-  "description": "Experiment with Misha Moroshko's autosuggest component to let a user choose a valid (iso) country code",
+  "description": "Experiment with Misha Moroshko's React autosuggest component to implement a control to help a user pick a valid (iso) country code",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
     "react": "16.12.0",
+    "react-autosuggest": "10.0.2",
     "react-dom": "16.12.0",
     "react-scripts": "3.0.1"
   },
