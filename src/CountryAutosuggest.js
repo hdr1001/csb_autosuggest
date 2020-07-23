@@ -7,6 +7,7 @@ class CountryAutosuggest extends React.Component {
     super(props);
 
     this.arrIsoCountries = null;
+
     this.state = { value: "", suggestions: [] };
   }
 
@@ -43,7 +44,7 @@ class CountryAutosuggest extends React.Component {
     );
   };
 
-  getSuggestionValue = isoCountry => isoCountry.description;
+  getSuggestionValue = isoCountry => isoCountry.code;
 
   renderSuggestion = isoCountry => <span>{isoCountry.description}</span>;
 
@@ -75,14 +76,22 @@ class CountryAutosuggest extends React.Component {
     };
 
     return (
-      <Autosuggest
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-        getSuggestionValue={this.getSuggestionValue}
-        renderSuggestion={this.renderSuggestion}
-        inputProps={AutosuggestInpProps}
-      />
+      <div className="countryAutosuggest">
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={this.getSuggestionValue}
+          renderSuggestion={this.renderSuggestion}
+          inputProps={AutosuggestInpProps}
+        />
+        <input
+          type="text"
+          readOnly="true"
+          tabIndex="-1"
+          value={this.props.isoCountryCode}
+        />
+      </div>
     );
   }
 }

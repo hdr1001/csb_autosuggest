@@ -4,6 +4,7 @@
 
 .react-autosuggest__container {
   position: relative;
+  display: inline;
 }
 
 .react-autosuggest__input {
@@ -59,4 +60,17 @@
 
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd;
+}
+
+div.countryAutosuggest > input[type="text"] {
+  position: absolute;
+  left: 262px;
+  width: 28px;
+  height: 16px;
+  padding: 10px 5px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
 }

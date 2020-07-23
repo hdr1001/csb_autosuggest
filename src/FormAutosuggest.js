@@ -32,7 +32,10 @@ class FormAutosuggest extends React.Component {
         encType="application/x-www-form-urlencoded"
         onSubmit={this.handleSubmit}
       >
-        <CountryAutosuggest onChange={this.handleChange} />
+        <CountryAutosuggest
+          onChange={this.handleChange}
+          isoCountryCode={this.state.isoCountryCode}
+        />
         <input type="submit" value="Submit" />
       </form>
     );
