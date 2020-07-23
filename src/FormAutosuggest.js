@@ -9,6 +9,7 @@ class FormAutosuggest extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.updIsoCountryCode = this.updIsoCountryCode.bind(this);
   }
 
   handleChange(event) {
@@ -26,6 +27,12 @@ class FormAutosuggest extends React.Component {
     event.preventDefault();
   }
 
+  updIsoCountryCode(isoCode) {
+    this.setState((prevState, props) => {
+      return { isoCountryCode: isoCode };
+    });
+  }
+
   render() {
     return (
       <form
@@ -33,7 +40,7 @@ class FormAutosuggest extends React.Component {
         onSubmit={this.handleSubmit}
       >
         <CountryAutosuggest
-          onChange={this.handleChange}
+          updIsoCountryCode={this.updIsoCountryCode}
           isoCountryCode={this.state.isoCountryCode}
         />
         <input type="submit" value="Submit" />

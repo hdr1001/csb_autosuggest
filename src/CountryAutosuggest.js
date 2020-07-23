@@ -2,12 +2,24 @@ import React from "react";
 import Autosuggest from "react-autosuggest";
 const fs = require("fs");
 
+function IsoCountry(code, desc) {
+  this.code = code;
+  this.description = desc;
+}
+
+IsoCountry.prototype.toString = function() {
+  return this.description;
+};
+
+IsoCountry.prototype.trim = function() {
+  return this.description.trim();
+};
+
 class CountryAutosuggest extends React.Component {
   constructor(props) {
     super(props);
 
     this.arrIsoCountries = null;
-
     this.state = { value: "", suggestions: [] };
   }
 
@@ -16,6 +28,10 @@ class CountryAutosuggest extends React.Component {
       if (err) throw err;
       this.arrIsoCountries = JSON.parse(data);
       console.log("Number of countries " + this.arrIsoCountries.length);
+
+      this.arrIsoCountries = this.arrIsoCountries.map(
+        isoCountry => new IsoCountry(isoCountry.code, isoCountry.description)
+      );
     });
   }
 
@@ -25,15 +41,17 @@ class CountryAutosuggest extends React.Component {
       return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
 
-    inpValue = escRegexChars(inpValue.trim());
+    let sInputValue = inpValue.toString();
 
-    if (inpValue.length <= 1) {
+    sInputValue = escRegexChars(sInputValue.trim());
+
+    if (sInputValue.length <= 1) {
       return [];
     }
 
-    const regExp = new RegExp(inpValue, "i");
+    const regExp = new RegExp(sInputValue, "i");
 
-    if (inpValue.length === 2) {
+    if (sInputValue.length === 2) {
       return this.arrIsoCountries.filter(isoCountry =>
         regExp.test(isoCountry.code)
       );
@@ -44,13 +62,19 @@ class CountryAutosuggest extends React.Component {
     );
   };
 
-  getSuggestionValue = isoCountry => isoCountry.code;
+  getSuggestionValue = isoCountry => isoCountry;
 
-  renderSuggestion = isoCountry => <span>{isoCountry.description}</span>;
+  renderSuggestion = isoCountry => <span>{isoCountry.toString()}</span>;
 
   onChange = (event, { newValue }) => {
+    if (!newValue.code) {
+      this.props.updIsoCountryCode("");
+    } else {
+      this.props.updIsoCountryCode(newValue.code);
+    }
+
     this.setState({
-      value: newValue
+      value: newValue.toString()
     });
   };
 
