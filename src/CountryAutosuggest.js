@@ -1,6 +1,6 @@
 import React from "react";
 import Autosuggest from "react-autosuggest";
-const fs = require("fs");
+import arrIsoCountries from "../assets/json/isoCountry.json";
 
 //ISO country object prototype
 const isoCountry = {
@@ -13,21 +13,21 @@ class CountryAutosuggest extends React.Component {
   constructor(props) {
     super(props);
 
-    this.arrIsoCountries = null;
     this.state = { value: "", suggestions: [] };
   }
 
   componentDidMount() {
-    fs.readFile("../assets/json/isoCountry.json", (err, data) => {
-      if (err) throw err;
-      this.arrIsoCountries = JSON.parse(data);
-      console.log("Number of countries " + this.arrIsoCountries.length);
+    console.log("Read " + arrIsoCountries.length + " countries from file.");
 
-      //Provide a toString method to the objects in the array
-      this.arrIsoCountries.forEach(isoCtry => {
+    if(arrIsoCountries.length > 0) {
+      //Provide a toString method to the objects in the country array
+      arrIsoCountries.forEach(isoCtry => {
         Object.setPrototypeOf(isoCtry, isoCountry);
       });
-    });
+    }
+    else {
+      throw new Error("Unable to read country information from file isoCountry.json"); 
+    }
   }
 
   //Create an array of isoCountry objects which match
@@ -49,10 +49,10 @@ class CountryAutosuggest extends React.Component {
     const regExp = new RegExp(sInputValue, "i");
 
     if (sInputValue.length === 2) {
-      return this.arrIsoCountries.filter(isoCtry => regExp.test(isoCtry.code));
+      return arrIsoCountries.filter(isoCtry => regExp.test(isoCtry.code));
     }
 
-    return this.arrIsoCountries.filter(isoCtry =>
+    return arrIsoCountries.filter(isoCtry =>
       regExp.test(isoCtry.description)
     );
   };
